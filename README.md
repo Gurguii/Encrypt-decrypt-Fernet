@@ -16,9 +16,9 @@ python enc_dec.py --decrypt <path-to-directory/file> --key <KeyString | path-to-
 # Arguments  
 
 -h / --help -> Displays help message  
--enc / --encrypt -> Encrypting mode, takes a path
--dec / --decrypt -> Decrypting mode, takes a path
--k / --key -> Key to use, takes a path or a string
--s / --safe -> Don't delete original files
--v / --verbose -> Display a message with the path of the encrypted/decrypted file.
--sk / --savekey -> File to save the key at, working directory by default, only meaningful if you're encrypting, will be ignored if decrypting.
+-enc / --encrypt -> Encrypting mode, takes a path  
+-dec / --decrypt -> Decrypting mode, takes a path  
+-k / --key -> Key to use, takes a path or a string  
+-s / --safe -> Don't delete original files  
+-v / --verbose -> Display a message with the path of the encrypted/decrypted file  
+-sk / --savekey -> File to save the key at, working directory by default, only meaningful when encrypting
