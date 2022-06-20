@@ -4,7 +4,7 @@ This script was made with learning purposes. I'm not responsible for others' mis
 Este script se hizo con la intención de aprender. No me hago responsable del mal uso ajeno.
 # Use examples
 1. Encrypt a directory or file:    
-    python enc_dec.py --encrypt <path-to-directory/file>  
+python enc_dec.py --encrypt <path-to-directory/file>  
  
 ![imagen](https://user-images.githubusercontent.com/101645735/174485387-fea85650-c228-4836-bc21-b32daf4aefba.png)  
   
