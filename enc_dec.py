@@ -52,7 +52,7 @@ def iterateDirectory(path):
             Decrypt_File(os.path.join(path,file))
 
 # Create argument parser
-parser = argparse.ArgumentParser(description="Encrypt/Decrypt files using Fernet symmetric encryption method\nCreator: Gurgui",usage=f"\n<ENCRYPTING> python3 {sys.argv[0]} --encrypt <path>\n<DECRYPTING> python3 {sys.argv[0]} --decrypt <path> --key <path>")
+parser = argparse.ArgumentParser(description="Encrypt/Decrypt files using Fernet symmetric encryption method",usage=f"\n<ENCRYPTING> python3 {sys.argv[0]} --encrypt <path>\n<DECRYPTING> python3 {sys.argv[0]} --decrypt <path> --key <path>")
 
 # Add arguments
 enc_dec = parser.add_mutually_exclusive_group(required=True)                                # These 3 lines allow me to force
