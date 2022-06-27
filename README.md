@@ -1,7 +1,7 @@
 
 # Encrypt - Decrypt with Fernet method
 
-[Linux/Windows] - Allows encrypting and decrypting files/directories.
+Allows encrypting and decrypting files/directories.
 
 
 
