@@ -1,14 +1,8 @@
 import os
 import argparse
 from cryptography.fernet import Fernet
-import platform
 key = "" # Holds the key used to encrypt-decrypt (symmetric key)
-slash = "" # Holds the correct choice - slash or backslash - depending on which OS the script is running on.
-if platform.system() == "Windows":
-    slash = "\\"
-elif platform.system() == "Linux":
-    slash ="/"
-savekeypath = os.getcwd()+"{}encryption_key".format(slash) # Holds the key file path, encryption_key in current working directory by default
+savekeypath = os.path.join(os.getcwd(),"encryption_key") # Holds the key file path, encryption_key in current working directory by default
 def Encrypt_File(path):
     file_to_encrypt = path
     encrypted_file = path+"_encrypted"
@@ -44,17 +38,17 @@ def Decrypt_File(path):
 
 def iterateDirectory(path):
     for file in os.listdir(path):
-        if os.path.isdir(path+slash+file):
+        if os.path.isdir(os.path.join(path,file)):
             # Code to execute when path points to a directory
-            iterateDirectory(path+slash+file)
+            iterateDirectory(os.path.join(path,file))
             continue
         # Code to execute when path points to a file
         if file == "enc_dec.py" or file == "encryption_key" or file == "cosa.py": # Avoid deleting the key file or the script itself
             continue
         if args.encrypt: # If user wants to encrypt we call Encrypt_File() function, else we call Decrypt_File() function.
-            Encrypt_File(path+slash+file)
+            Encrypt_File(os.path.join(path,file))
         else:
-            Decrypt_File(path+slash+file)
+            Decrypt_File(os.path.join(path,file))
 
 # Create argument parser
 parser = argparse.ArgumentParser()
