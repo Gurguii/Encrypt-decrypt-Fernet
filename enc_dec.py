@@ -1,6 +1,7 @@
 import os
 import argparse
 from cryptography.fernet import Fernet
+import sys
 key = "" # Holds the key used to encrypt-decrypt (symmetric key)
 savekeypath = os.path.join(os.getcwd(),"encryption_key") # Holds the key file path, encryption_key in current working directory by default
 def Encrypt_File(path):
@@ -51,13 +52,12 @@ def iterateDirectory(path):
             Decrypt_File(os.path.join(path,file))
 
 # Create argument parser
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Encrypt/Decrypt files using Fernet symmetric encryption method\nCreator: Gurgui",usage=f"\n<ENCRYPTING> python3 {sys.argv[0]} --encrypt <path>\n<DECRYPTING> python3 {sys.argv[0]} --decrypt <path> --key <path>")
 
 # Add arguments
 enc_dec = parser.add_mutually_exclusive_group(required=True)                                # These 3 lines allow me to force
 enc_dec.add_argument("-enc","--encrypt", help="Encryption mode - takes a path", metavar="") # the user to use rather -enc or -dec 
 enc_dec.add_argument("-dec","--decrypt", help="Decryption mode - takes a path", metavar="") # option but not both at the same time.
-
 parser.add_argument("-k","--key", help="Key to use - must use when decrypting", metavar="")
 parser.add_argument("-s","--safe", action='store_true', help="Don't delete original files")
 parser.add_argument("-v","--verbose", action='store_true', help="Display extra info")
@@ -65,7 +65,6 @@ parser.add_argument("-sk","--savekey", help="File to save the key at. Current wo
 
 # Parse arguments
 args = parser.parse_args()
-
 # Make sure user has given a key when if decrypting
 if args.decrypt and not args.key:
     print("\n[!] Key must be included when decrypting, <KeyString> or <PathToKeyFile>\n[!] Exiting")
@@ -84,7 +83,10 @@ if args.savekey:
 
 # If encrypt mode is chosen:
 if args.encrypt:
-    enc_path = args.encrypt
+    if args.encrypt == '.':
+       enc_path = os.getcwd()
+    else:
+        enc_path = args.encrypt
     key = Fernet.generate_key()
     fernet = Fernet(key)
     if not os.path.exists(enc_path):
@@ -94,7 +96,7 @@ if args.encrypt:
         file.write(key)
     if os.path.isdir(enc_path):
         iterateDirectory(enc_path)
-        print("[!] Directory {} recursevely encrypted".format(enc_path))
+        print("\n[!] Directory {} recursevely encrypted".format(enc_path))
         print("[!] Encryption key saved at {}".format(savekeypath))
         exit(0)
     else:
@@ -105,19 +107,23 @@ if args.encrypt:
 
 # At this point decrypt mode is the choice, since you can't do --encrypt --decrypt && above if condition didn't happen (not encrypting)
 # other way it would have ended in an exit(0) function and this code wouldn't have been executed.
+
 if os.path.exists(args.key) and os.path.isfile(args.key):
     with open(args.key,'rb') as file:
         key = file.read()
 else:
     key = args.key
-dec_path = args.decrypt
+if args.decrypt == '.':
+    dec_path = os.getcwd()
+else:
+    dec_path = args.decrypt
 fernet = Fernet(key)
 if not os.path.exists(dec_path):
     print("[!] Path {} does not exist\n[!] Exiting".format(dec_path))
     exit(0)
 if os.path.isdir(dec_path):
     iterateDirectory(dec_path)
-    print("[!] Directory {} recursevely decrypted".format(dec_path))
+    print("\n[!] Directory {} recursevely decrypted".format(dec_path))
     exit(0)
 else:
     Decrypt_File(dec_path)
